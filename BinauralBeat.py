@@ -1,5 +1,5 @@
 #coding: utf-8
-import struct, pyaudio as pa
+import sys, struct, pyaudio as pa
 from math import sin, pi
 
 class StereoSound:
@@ -39,7 +39,11 @@ class StereoSound:
 
 if __name__ == "__main__" :
     sound = StereoSound()
-    f1 = 440
-    f2 = 450
+    if len(sys.argv) > 2:
+        f1 = sys.argv[1]
+        f2 = sys.argv[2]
+    else:
+        f1 = 440
+        f2 = 450
     sound.generateSinWave(f1, f2, 0.002)
     sound.play(-1)
