@@ -1,5 +1,5 @@
 #coding: utf-8
-import sys, struct, wave, pyaudio as pa
+import struct, pyaudio as pa
 from math import sin, pi
 
 class StereoSound:
