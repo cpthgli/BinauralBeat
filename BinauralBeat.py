@@ -43,7 +43,6 @@ if __name__ == "__main__" :
         f1 = sys.argv[1]
         f2 = sys.argv[2]
     else:
-        f1 = 440
-        f2 = 450
+        f1, f2 = map(int, input().split())
     sound.generateSinWave(f1, f2, 0.002)
     sound.play(-1)
