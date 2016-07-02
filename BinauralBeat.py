@@ -12,11 +12,12 @@ class StereoSound:
         self.samp = sampling
 
     def generateSinWave(self, left, right, volume=0.98, time=1.0):
-        cast = {pa.paFloat32: (float, 1.0, 'f'),
-                pa.paInt32: (int, 2147483647.0, 'i'),
-                pa.paInt24: (int, 8388607.0, '3b'),
-                pa.paInt16: (int, 32767.0, 'h'),
-                pa.paInt8: (int, 127.0, 'b'), }
+        cast = {
+            pa.paFloat32: (float, 1.0, 'f'),
+            pa.paInt32: (int, 2147483647.0, 'i'),
+            pa.paInt24: (int, 8388607.0, '3b'),
+            pa.paInt16: (int, 32767.0, 'h'),
+            pa.paInt8: (int, 127.0, 'b')}
         length = int(time * self.samp)
         num = length << 1
         data = [0.0] * num
