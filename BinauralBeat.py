@@ -17,7 +17,7 @@ class StereoSound:
             pa.paInt32: (int, 2147483647.0, 'i'),
             pa.paInt24: (int, 8388607.0, '3b'),
             pa.paInt16: (int, 32767.0, 'h'),
-            pa.paInt8: (int, 127.0, 'b')}
+            pr.paInt8: (int, 127.0, 'b')}
         length = int(time * self.samp)
         num = length << 1
         data = [0.0] * num
@@ -47,6 +47,8 @@ if __name__ == "__main__":
         f1 = sys.argv[1]
         f2 = sys.argv[2]
     else:
+        f = open('./README.md', 'rt', encoding='utf-8')
+        print(f.read())
         f1, f2 = map(int, input().split())
     sound.generateSinWave(f1, f2, 0.002)
     sound.play(-1)
