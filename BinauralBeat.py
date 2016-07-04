@@ -17,7 +17,7 @@ class StereoSound:
             pa.paInt32: (int, 2147483647.0, 'i'),
             pa.paInt24: (int, 8388607.0, '3b'),
             pa.paInt16: (int, 32767.0, 'h'),
-            pr.paInt8: (int, 127.0, 'b')}
+            pa.paInt8: (int, 127.0, 'b')}
         length = int(time * self.samp)
         num = length << 1
         data = [0.0] * num
