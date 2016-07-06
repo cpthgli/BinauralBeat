@@ -1,5 +1,6 @@
 # coding: utf-8
 import sys
+import re
 import struct
 import pyaudio as pa
 from math import sin, pi
@@ -47,7 +48,8 @@ if __name__ == "__main__":
         f1 = sys.argv[1]
         f2 = sys.argv[2]
     else:
-        f = open('./README.md', 'rt', encoding='utf-8')
+        directory = re.match(r"^.*\\",sys.argv[0])
+        f = open(directory.group(0) + 'README.md', 'rt', encoding='utf-8')
         print(f.read())
         f1, f2 = map(int, input().split())
     sound.generateSinWave(f1, f2, 0.002)
