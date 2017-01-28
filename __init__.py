@@ -1,4 +1,4 @@
 '''
 binauralBeats init
 '''
-from binauralBeats import StereoSounds
+from binauralBeats import *

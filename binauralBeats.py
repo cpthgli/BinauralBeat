@@ -2,8 +2,8 @@
 binauralBeats.py is generate Binaural bets and play.
 '''
 import time
-import numpy as np
 import threading
+import numpy as np
 import pyaudio as pa
 
 
@@ -19,7 +19,7 @@ class SampleFormatNotSuportedException(Exception):
         return "pyaudio. " + self._fmt + ' is not supported.'
 
 
-class StereoSounds():
+class StereoSounds:
     '''
     Stereo sounds class.
     '''
@@ -62,22 +62,20 @@ class StereoSounds():
         '''
         Play sounds.
         '''
-        def _play(stream, data, repeat):
-            while repeat != 0:
-                try:
-                    stream.write(data)
-                except OSError:
-                    pass
+        self.is_play = True
+        def _play(stream, data, repeat, is_play):
+            while repeat != 0 & is_play:
+                stream.write(data)
                 repeat -= 1
             stream.close()
-        th_play = threading.Thread(target=_play, args=(self.stream, self.data, repeat))
+        th_play = threading.Thread(target=_play, args=(self.stream, self.data, repeat, self.is_play))
         th_play.start()
 
     def stop(self):
         '''
         Stop sounds.
         '''
-        self.stream.close()
+        self.is_play = False
 
     def close(self):
         '''
@@ -96,6 +94,7 @@ class StereoSounds():
             rate=int(self.rate),
             output=True
         )
+        self.is_play = False
 
 if __name__ == "__main__":
     sounds = StereoSounds()
