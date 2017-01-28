@@ -3,6 +3,7 @@ binauralBeats.py is generate Binaural bets and play.
 '''
 import time
 import numpy as np
+import threading
 import pyaudio as pa
 
 
@@ -42,6 +43,7 @@ class StereoSounds():
             self.dtype = np.uint8
         else:
             raise SampleFormatNotSuportedException('paCustomFormat')
+        self.reset()
         self.data = b''
 
     def generate_sine_wave(self, left, right, volume=0.98):
@@ -60,21 +62,48 @@ class StereoSounds():
         '''
         Play sounds.
         '''
-        audio = pa.PyAudio()
-        stream = audio.open(
+        def _play(stream, data, repeat):
+            while repeat != 0:
+                try:
+                    stream.write(data)
+                except OSError:
+                    pass
+                repeat -= 1
+            stream.close()
+        th_play = threading.Thread(target=_play, args=(self.stream, self.data, repeat))
+        th_play.start()
+
+    def stop(self):
+        '''
+        Stop sounds.
+        '''
+        self.stream.close()
+
+    def close(self):
+        '''
+        Close audio
+        '''
+        self.audio.terminate()
+
+    def reset(self):
+        '''
+        Reset audio
+        '''
+        self.audio = pa.PyAudio()
+        self.stream = self.audio.open(
             format=self.fmt,
             channels=2,
             rate=int(self.rate),
             output=True
         )
-        start_time = time.time()
-        while time.time() - start_time < repeat:
-            stream.write(self.data)
-        stream.close()
-        audio.terminate()
 
 if __name__ == "__main__":
-    SOUNDS = StereoSounds()
-    SOUNDS.generate_sine_wave(440, 445, 0.02)
-    SOUNDS.generate_sine_wave(820, 800, 0.02)
-    SOUNDS.play(5)
+    sounds = StereoSounds()
+    sounds.generate_sine_wave(440, 445, 0.02)
+    sounds.play(-1)
+    start_time = time.time()
+    seconds = 5
+    while time.time() - start_time < seconds:
+        pass
+    sounds.stop()
+    sounds.close()
