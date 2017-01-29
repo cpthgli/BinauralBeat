@@ -63,12 +63,13 @@ class StereoSounds:
         Play sounds.
         '''
         self.is_play = True
-        def _play(stream, data, repeat, is_play):
-            while repeat != 0 & is_play:
-                stream.write(data)
+        def _play(self, repeat):
+            while (repeat != 0) & self.is_play:
+                self.stream.write(self.data)
                 repeat -= 1
-            stream.close()
-        th_play = threading.Thread(target=_play, args=(self.stream, self.data, repeat, self.is_play))
+            self.stream.close()
+            self.audio.terminate()
+        th_play = threading.Thread(target=_play, args=(self, repeat))
         th_play.start()
 
     def stop(self):
